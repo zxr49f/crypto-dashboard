@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  @apply bg-vault-950 text-vault-100 font-body antialiased;
+  background-image:
+    radial-gradient(60% 50% at 15% 0%, rgba(232, 178, 63, 0.06), transparent 60%),
+    radial-gradient(40% 40% at 100% 20%, rgba(61, 220, 151, 0.05), transparent 60%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(232, 178, 63, 0.25);
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #232833; border-radius: 999px; border: 2px solid #0d0f14; }
+::-webkit-scrollbar-thumb:hover { background: #323847; }
+
+.panel {
+  @apply bg-vault-900/80 border border-vault-700/60 rounded-2xl shadow-panel backdrop-blur-sm;
+}
+
+.panel-noise {
+  position: relative;
+}
+.panel-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: theme('backgroundImage.noise');
+  opacity: 0.02;
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: overlay;
+}
+
+.mono-num {
+  @apply font-mono tabular-nums;
+}
+
+.status-dot {
+  @apply inline-block w-2 h-2 rounded-full;
+}
+
+.status-dot.online { @apply bg-emerald-400 animate-pulseDot; }
+.status-dot.offline { @apply bg-garnet-500; }
+.status-dot.warn { @apply bg-brass-500; }
+
+.chip {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border;
+}
+
+.chip-confirmed { @apply bg-emerald-400/10 text-emerald-400 border-emerald-400/20; }
+.chip-confirming { @apply bg-brass-500/10 text-brass-400 border-brass-500/20; }
+.chip-pending { @apply bg-vault-600/20 text-vault-300 border-vault-600/40; }
+.chip-failed { @apply bg-garnet-500/10 text-garnet-400 border-garnet-500/20; }
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.25s ease;
+}
+.link-underline:hover { background-size: 100% 1px; }
