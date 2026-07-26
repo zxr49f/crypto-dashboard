@@ -1,0 +1,29 @@
+workflows:
+  ios-sideload-build:
+    name: iOS Unsigned Build for Sideloading
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      node: latest
+    scripts:
+      - name: Install npm dependencies
+        script: npm install
+      - name: Sync Capacitor iOS project
+        script: npx cap sync ios
+      - name: Build unsigned .app
+        script: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath DerivedData \
+            CODE_SIGNING_ALLOWED=NO
+      - name: Package into unsigned .ipa
+        script: |
+          cd ios/App/DerivedData/Build/Products/Release-iphoneos
+          mkdir Payload
+          cp -r App.app Payload/
+          zip -r App-unsigned.ipa Payload
+    artifacts:
+      - ios/App/DerivedData/Build/Products/Release-iphoneos/App-unsigned.ipa
